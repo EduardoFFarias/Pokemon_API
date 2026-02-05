@@ -35,4 +35,5 @@ df["imagem"] = df["id"].apply(
 
 df.to_csv("pokemon_api.csv", index=False, encoding="utf-8")
 #%%
+#teste
 df
