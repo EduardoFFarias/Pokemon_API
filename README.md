@@ -73,7 +73,7 @@ pokemon-api-project/
 │
 ├── data/
 │   ├── pokemons.csv
-│   └── pokemons.parquet
+│
 │
 ├── scripts/
 │   └── pokemon_api.py
