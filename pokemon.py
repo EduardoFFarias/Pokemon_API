@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 import json
 
-# Quantos pokémons você quer buscar
+# Quantos pokémons quer buscar
 limite = 151  # pode aumentar depois
 
 # Lista principal
