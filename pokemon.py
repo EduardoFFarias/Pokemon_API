@@ -1,39 +1,43 @@
 #%%
-import pandas as pd
 import requests
+import pandas as pd
+import json
 
-LIMIT = 50
-url = f"https://pokeapi.co/api/v2/pokemon?limiti={LIMIT}"
+# Quantos pokémons você quer buscar
+limite = 151  # pode aumentar depois
 
-response = requests.get(url)
-data = response.json()
+# Lista principal
+lista_pokemon = []
 
-pokemon_lista = data["results"]
+# Buscar lista de pokémons
+url_lista = f"https://pokeapi.co/api/v2/pokemon?limit={limite}"
+resposta_lista = requests.get(url_lista).json()
 
-dados_pokemon = []
-for pokemon in pokemon_lista:
-    url_detalhe = pokemon["url"]
-
-    url_detalhe = requests.get(url_detalhe).json()
-
-    dados_pokemon.append({
-        "nome": url_detalhe["name"],
-        "id": url_detalhe["id"],
-        "altura": url_detalhe["height"],
-        "peso": url_detalhe["weight"],
-        "experiencia_base": url_detalhe["base_experience"],
-        "tipo1": url_detalhe["types"][0]["type"]["name"],
-        "tipo2": url_detalhe["types"][1]["type"]["name"] if len(url_detalhe["types"]) > 1 else None
+for pokemon in resposta_lista["results"]:
+    dados = requests.get(pokemon["url"]).json()
+    
+    stats = {stat["stat"]["name"]: stat["base_stat"] for stat in dados["stats"]}
+    
+    lista_pokemon.append({
+        "id": dados["id"],
+        "nome": dados["name"],
+        "altura": dados["height"],
+        "peso": dados["weight"],
+        "experiencia_base": dados["base_experience"],
+        "tipo1": dados["types"][0]["type"]["name"],
+        "tipo2": dados["types"][1]["type"]["name"] if len(dados["types"]) > 1 else None,
+        "imagem": dados["sprites"]["front_default"],
+        
+        # Stats
+        "hp": stats.get("hp"),
+        "attack": stats.get("attack"),
+        "defense": stats.get("defense"),
+        "special_attack": stats.get("special-attack"),
+        "special_defense": stats.get("special-defense"),
+        "speed": stats.get("speed")
     })
-
+# Criar DataFrame
+df = pd.DataFrame(lista_pokemon)
 #%%
-df = pd.DataFrame(dados_pokemon)
-df["id"] = df["id"].astype(int)
-df["imagem"] = df["id"].apply(
-    lambda x: f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{x}.png"
-)
-
-df.to_csv("pokemon_api.csv", index=False, encoding="utf-8")
-#%%
-#teste
-df
+df.to_csv(r"P:\Projetos\Pokemon_API\pokemon_api.csv", index=False, encoding="utf-8")
+print("Arquivo salvo com sucesso!")
