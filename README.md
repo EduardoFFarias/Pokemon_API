@@ -2,6 +2,8 @@
 
 Projeto desenvolvido para consumo de dados da **PokéAPI**, tratamento das informações em **Python** e criação de análises visuais no **Power BI**.
 
+**LINK PROJETO:** https://app.powerbi.com/view?r=eyJrIjoiYWQxZjA3ZDgtMzU3Yi00ODI3LTllMGMtNmJhODlmMDQ5M2I1IiwidCI6IjM4ZjZhMDc3LTMzM2QtNGUwZS1iODk0LTM1NmRiMTI5YmQ5OCJ9
+
 O foco do projeto é praticar o fluxo completo de dados (**ETL**), desde a extração via API até a visualização e interpretação dos dados.
 
 ---
